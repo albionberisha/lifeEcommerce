@@ -78,7 +78,7 @@ namespace lifeEcommerce.Services
                 products = _unitOfWork.Repository<Product>()
                                              .GetByCondition(conditionByCategory).WhereIf(!string.IsNullOrEmpty(search), condition);
             }
-            else
+            else // dismiss category
             {
                 products = _unitOfWork.Repository<Product>().GetAll().WhereIf(!string.IsNullOrEmpty(search), condition);
             }   
