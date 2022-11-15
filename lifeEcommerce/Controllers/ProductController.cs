@@ -6,6 +6,7 @@ using lifeEcommerce.Models.Entities;
 namespace lifeEcommerce.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -16,7 +17,7 @@ namespace lifeEcommerce.Controllers
         }
 
 
-        [HttpGet("GetProduct")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             var product = await _productService.GetProduct(id);
@@ -29,7 +30,7 @@ namespace lifeEcommerce.Controllers
             return Ok(product);
         }
 
-        [HttpGet("GetProducts")]
+        [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
             var categories = await _productService.GetAllProducts();
@@ -37,15 +38,15 @@ namespace lifeEcommerce.Controllers
             return Ok(categories);
         }
 
-        [HttpGet("ProductsListView")]
+        [HttpGet("{search}")]
         public async Task<IActionResult> ProductsListView(string? search, int categoryId = 0, int page = 1, int pageSize = 10)
         {
-            var products = await _productService.ProductsListView(search ,page, pageSize, categoryId);
+            var products = await _productService.ProductsListView(search, page, pageSize, categoryId);
 
             return Ok(products);
         }
 
-        [HttpPost("PostProduct")]
+        [HttpPost]
         public async Task<IActionResult> Post([FromForm] ProductCreateDto ProductToCreate)
         {
             await _productService.CreateProduct(ProductToCreate);
@@ -53,7 +54,7 @@ namespace lifeEcommerce.Controllers
             return Ok("Product created successfully!");
         }
 
-        [HttpPut("UpdateProduct")]
+        [HttpPut]
         public async Task<IActionResult> Update(ProductDto ProductToUpdate)
         {
             await _productService.UpdateProduct(ProductToUpdate);
@@ -61,7 +62,7 @@ namespace lifeEcommerce.Controllers
             return Ok("Product updated successfully!");
         }
 
-        [HttpDelete("DeleteProduct")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _productService.DeleteProduct(id);

@@ -5,6 +5,7 @@ using lifeEcommerce.Models.Dtos;
 namespace lifeEcommerce.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -15,7 +16,7 @@ namespace lifeEcommerce.Controllers
         }
 
 
-        [HttpGet("GetCategory")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             var category = await _categoryService.GetCategory(id);
@@ -28,7 +29,7 @@ namespace lifeEcommerce.Controllers
             return Ok(category);
         }
 
-        [HttpGet("GetCategories")]
+        [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
             var categories = await _categoryService.GetAllCategories();
@@ -36,15 +37,15 @@ namespace lifeEcommerce.Controllers
             return Ok(categories);
         }
 
-        [HttpGet("CategoriesListView")]
+        [HttpGet("{search}")]
         public async Task<IActionResult> CategoriesListView(string? search, int page = 1, int pageSize = 10)
         {
-            var categories = await _categoryService.CategoriesListView(search ,page, pageSize);
+            var categories = await _categoryService.CategoriesListView(search, page, pageSize);
 
             return Ok(categories);
         }
 
-        [HttpPost("PostCategory")]
+        [HttpPost]
         public async Task<IActionResult> Post(CategoryCreateDto CategoryToCreate)
         {
             await _categoryService.CreateCategory(CategoryToCreate);
@@ -52,7 +53,7 @@ namespace lifeEcommerce.Controllers
             return Ok("Category created successfully!");
         }
 
-        [HttpPut("UpdateCategory")]
+        [HttpPut]
         public async Task<IActionResult> Update(CategoryDto CategoryToUpdate)
         {
             await _categoryService.UpdateCategory(CategoryToUpdate);
@@ -60,7 +61,7 @@ namespace lifeEcommerce.Controllers
             return Ok("Category updated successfully!");
         }
 
-        [HttpDelete("DeleteCategory")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _categoryService.DeleteCategory(id);
