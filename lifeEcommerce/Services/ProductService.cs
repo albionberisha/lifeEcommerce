@@ -76,7 +76,9 @@ namespace lifeEcommerce.Services
             {
                 Expression<Func<Product, bool>> conditionByCategory = x => x.CategoryId == categoryId;
                 products = _unitOfWork.Repository<Product>()
-                                             .GetByCondition(conditionByCategory).WhereIf(!string.IsNullOrEmpty(search), condition);
+                                             .GetByCondition(conditionByCategory)
+                                             .WhereIf(!string.IsNullOrEmpty(search), condition)
+                                             .PageBy(x => x.Id, page, pageSize);
             }
             else // dismiss category
             {

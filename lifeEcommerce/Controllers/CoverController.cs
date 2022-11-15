@@ -1,6 +1,7 @@
 ﻿using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using lifeEcommerce.Models.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lifeEcommerce.Controllers
 {
@@ -14,7 +15,7 @@ namespace lifeEcommerce.Controllers
             _coverService = coverService;
         }
 
-
+        [Authorize]
         [HttpGet("GetCover")]
         public async Task<IActionResult> Get(int id)
         {

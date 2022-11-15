@@ -1,5 +1,6 @@
 ﻿using lifeEcommerce.Data.Repository.IRepository;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace lifeEcommerce.Data.Repository
 {
@@ -16,6 +17,23 @@ namespace lifeEcommerce.Data.Repository
         {
             return _dbContext.Set<Tentity>().Where(expression);
         }
+
+        //public IQueryable<Tentity> GetByConditionPaginated<TEntity, Type, T>(Expression<Func<Tentity, bool>> expression, Expression<Func<T, Type>> orderBy, int page, int pageSize, bool orderByDescending = true)
+        //{
+        //    const int defaultPageNumber = 1;
+
+        //    var query = _dbContext.Set<Tentity>().Where(expression);
+
+        //    // Check if the page number is greater then zero - otherwise use default page number
+        //    if (page <= 0)
+        //    {
+        //        page = defaultPageNumber;
+        //    }
+
+        //    // It is necessary sort items before it
+        //    query = orderByDescending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
+        //    return query.Skip((page - 1) * pageSize).Take(pageSize);
+        //}
 
         public IQueryable<Tentity> GetAll()
         {
