@@ -5,6 +5,7 @@ using lifeEcommerce.Models.Dtos;
 namespace lifeEcommerce.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class CoverController : Controller
     {
         private readonly ICoverService _coverService;
@@ -15,7 +16,7 @@ namespace lifeEcommerce.Controllers
         }
 
 
-        [HttpGet("GetCover")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var cover = await _coverService.GetCover(id);
@@ -28,7 +29,7 @@ namespace lifeEcommerce.Controllers
             return Ok(cover);
         }
 
-        [HttpGet("GetCovers")]
+        [HttpGet]
         public async Task<IActionResult> GetCovers()
         {
             var covers = await _coverService.GetAllCovers();
@@ -36,7 +37,7 @@ namespace lifeEcommerce.Controllers
             return Ok(covers);
         }
 
-        [HttpPost("PostCover")]
+        [HttpPost]
         public async Task<IActionResult> Post(UnitCreateDto coverToCreate)
         {
             await _coverService.CreateCover(coverToCreate);
@@ -44,7 +45,7 @@ namespace lifeEcommerce.Controllers
             return Ok("Cover created successfully!");
         }
 
-        [HttpPut("UpdateCover")]
+        [HttpPut]
         public async Task<IActionResult> Update(UnitDto coverToUpdate)
         {
             await _coverService.UpdateCover(coverToUpdate);
@@ -52,7 +53,7 @@ namespace lifeEcommerce.Controllers
             return Ok("Cover updated successfully!");
         }
 
-        [HttpDelete("DeleteCover")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _coverService.DeleteCover(id);
