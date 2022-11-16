@@ -2,13 +2,17 @@ using AutoMapper;
 using lifeEcommerce.Data;
 using lifeEcommerce.Data.UnitOfWork;
 using lifeEcommerce.Helpers;
+using lifeEcommerce.Models.Entities;
 using lifeEcommerce.Services;
 using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 using System.Text;
+using claims = System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,9 +61,56 @@ builder.Services.AddAuthentication(options =>
                       ClockSkew = TimeSpan.Zero
                   };
 
+                  options.Events = new JwtBearerEvents
+                  {
+                      OnTokenValidated = async context =>
+                      {
+                          context.HttpContext.User = context.Principal ?? new claims.ClaimsPrincipal();
+
+                          var userId = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                          var firstName = context.HttpContext.User.FindFirst(ClaimTypes.GivenName)?.Value;
+                          var lastName = context.HttpContext.User.FindFirst(ClaimTypes.Surname)?.Value;
+                          var email = context.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+                          var gender = context.HttpContext.User.FindFirst(ClaimTypes.Gender)?.Value;
+                          var birthdate = context.HttpContext.User.FindFirst(ClaimTypes.DateOfBirth)?.Value;
+                          var phone = context.HttpContext.User.FindFirst(ClaimTypes.MobilePhone)?.Value;
+
+                          var userService = context.HttpContext.RequestServices.GetService<IUnitOfWork>();
+
+                          if(userService.Repository<User>().GetById(x => x.Id == userId) == null)
+                          {
+                              var userToBeAdded = new User
+                              {
+                                  Id = userId,
+                                  Email = email,
+                                  FirsName = firstName,
+                                  LastName = lastName,
+                                  Gender = gender,
+                                  DateOfBirth = DateTime.Parse(birthdate),
+                                  PhoneNumber = phone ?? " "
+                              };
+
+                              userService.Repository<User>().Create(userToBeAdded);
+                          }
+                          else
+                          {
+                              var existingUser = userService.Repository<User>().GetById(x => x.Id == userId).FirstOrDefault();
+                              existingUser.FirsName = firstName;
+                              existingUser.LastName = lastName;
+                              existingUser.PhoneNumber = phone ?? " ";
+
+                              userService.Repository<User>().Update(existingUser);
+                          }
+
+                          userService.Complete();
+                      }
+                  };
+
                   // if token does not contain a dot, it is a reference token
                   options.ForwardDefaultSelector = Selector.ForwardReferenceToken("token");
               });
+
+            
 
 builder.Services.AddSwaggerGen(c =>
 {
