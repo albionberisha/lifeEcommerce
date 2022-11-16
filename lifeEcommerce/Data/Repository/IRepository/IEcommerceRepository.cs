@@ -6,6 +6,9 @@ namespace lifeEcommerce.Data.Repository.IRepository
     {
         IQueryable<Tentity> GetByCondition(Expression<Func<Tentity, bool>> expression);
 
+        IQueryable<Tentity> GetByConditionPaginated(Expression<Func<Tentity, bool>> expression, Expression<Func<Tentity, object>> orderBy, int page, int pageSize, bool orderByDescending = true);
+
+
         IQueryable<Tentity> GetAll();
 
         IQueryable<Tentity> GetById(Expression<Func<Tentity, bool>> expression);

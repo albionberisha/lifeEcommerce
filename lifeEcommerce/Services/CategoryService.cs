@@ -75,6 +75,9 @@ namespace lifeEcommerce.Services
         {
             Expression<Func<Category, bool>> condition = x => x.Name.Contains(search);
 
+            //var categories1 = _unitOfWork.Repository<Category>()
+            //                                             .GetByConditionPaginated(condition, x => x.Id, page, pageSize, false);
+
             var categories = _unitOfWork.Repository<Category>()
                                                          .GetAll().WhereIf(!string.IsNullOrEmpty(search), condition);
                                                        
