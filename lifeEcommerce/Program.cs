@@ -6,10 +6,12 @@ using lifeEcommerce.Models.Entities;
 using lifeEcommerce.Services;
 using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Configuration;
 using System.Security.Claims;
 using System.Security.Cryptography.Xml;
 using System.Text;
@@ -33,6 +35,11 @@ builder.Services.AddDbContext<LifeEcommerceDbContext>(options =>
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICoverService, CoverService>();
 builder.Services.AddTransient<IProductService, ProductService>();
+//builder.Services.AddSingleton<IEmailSender, EmailSender>();
+var smtpConfiguration = builder.Configuration.GetSection(nameof(SmtpConfiguration)).Get<SmtpConfiguration>();
+
+builder.Services.AddSingleton(smtpConfiguration);
+builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -1,6 +1,7 @@
 ﻿using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using lifeEcommerce.Models.Dtos;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace lifeEcommerce.Controllers
 {
@@ -9,16 +10,20 @@ namespace lifeEcommerce.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly ILogger<CategoryController> _logger;
+        private readonly IEmailSender _emailSender;
 
-        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger, IEmailSender emailSender)
         {
             _categoryService = categoryService;
             _logger = logger;
+            _emailSender = emailSender;
         }
 
-        [HttpGet("TestSerilog")]
-        public async Task<IActionResult> TestSerilog(int id)
+        [HttpGet("Test")]
+        public async Task<IActionResult> TestSerilog()
         {
+            await _emailSender.SendEmailAsync("albion.b@gjirafa.com", "Hello from Life!", "Content");
+
             try
             {
                 int num = 4;
