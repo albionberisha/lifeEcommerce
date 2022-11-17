@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using lifeEcommerce.Services.IService;
+using lifeEcommerce.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using SendGrid;
 
 namespace lifeEcommerce.Helpers
@@ -30,6 +32,13 @@ namespace lifeEcommerce.Helpers
             {
                 services.AddSingleton<IEmailSender, LogEmailSender>();
             }
+        }
+
+        public static void AddServicesAndRepositories(this IServiceCollection services)
+        {
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ICoverService, CoverService>();
+            services.AddTransient<IProductService, ProductService>();
         }
     }
 }

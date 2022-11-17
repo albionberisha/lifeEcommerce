@@ -32,14 +32,15 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddDbContext<LifeEcommerceDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<ICoverService, CoverService>();
-builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddServicesAndRepositories();
+
 //builder.Services.AddSingleton<IEmailSender, EmailSender>();
 var smtpConfiguration = builder.Configuration.GetSection(nameof(SmtpConfiguration)).Get<SmtpConfiguration>();
 
-builder.Services.AddSingleton(smtpConfiguration);
-builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+//builder.Services.AddSingleton(smtpConfiguration);
+//builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+
+builder.Services.AddEmailSenders(builder.Configuration);
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -93,7 +94,9 @@ builder.Services.AddAuthentication(options =>
 
                           var userService = context.HttpContext.RequestServices.GetService<IUnitOfWork>();
 
-                          if(userService.Repository<User>().GetById(x => x.Id == userId) == null)
+                          var incomingUser = userService.Repository<User>().GetById(x => x.Id == userId).FirstOrDefault();
+
+                          if (incomingUser == null)
                           {
                               var userToBeAdded = new User
                               {
@@ -107,6 +110,12 @@ builder.Services.AddAuthentication(options =>
                               };
 
                               userService.Repository<User>().Create(userToBeAdded);
+
+                              var emailService = context.HttpContext.RequestServices.GetService<IEmailSender>();
+                              if(emailService != null) 
+                              {
+                                  emailService.SendEmailAsync(userToBeAdded.Email, "Welcome", "Welcome To Life");
+                              }
                           }
                           else
                           {
