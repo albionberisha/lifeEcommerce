@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using lifeEcommerce.Models.Dtos;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace lifeEcommerce.Controllers
 {
@@ -11,17 +12,21 @@ namespace lifeEcommerce.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ILogger<CategoryController> _logger;
         private readonly IStringLocalizer<CategoryController> _localizer;
+        private readonly IEmailSender _emailSender;
 
-        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger, IStringLocalizer<CategoryController> localizer)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger, IStringLocalizer<CategoryController> localizer, IEmailSender emailSender)
         {
             _categoryService = categoryService;
             _logger = logger;
             _localizer = localizer;
+            _emailSender = emailSender;
         }
 
         [HttpGet("Test")]
         public async Task<IActionResult> Test()
         {
+            await _emailSender.SendEmailAsync("albion.b@gjirafa.com","Hello From Life", "Content");
+
             var category = _localizer["category"];
             var category1 = _localizer.GetString("category").Value;
 

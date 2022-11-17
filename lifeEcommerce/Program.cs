@@ -6,6 +6,7 @@ using lifeEcommerce.Models.Entities;
 using lifeEcommerce.Services;
 using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -38,6 +39,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+var smtpConfigurations = builder.Configuration.GetSection(nameof(SmtpConfiguration)).Get<SmtpConfiguration>();
+builder.Services.AddSingleton(smtpConfigurations);
+builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
 var logger = new LoggerConfiguration()
         .ReadFrom.Configuration(builder.Configuration)
