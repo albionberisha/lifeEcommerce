@@ -8,12 +8,33 @@ namespace lifeEcommerce.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly ILogger<CategoryController> _logger;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
+            _logger = logger;
         }
 
+        [HttpGet("TestSerilog")]
+        public async Task<IActionResult> TestSerilog(int id)
+        {
+            try
+            {
+                int num = 4;
+                int num2 = 0;
+
+                int num3 = num / num2;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error i LIFE");
+                _logger.LogInformation(ex, "Error i LIFE");
+                _logger.LogDebug(ex, "Error i LIFE");
+            }
+
+            return Ok("Tested");
+        }
 
         [HttpGet("GetCategory")]
         public async Task<IActionResult> Get(int id)
