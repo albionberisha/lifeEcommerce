@@ -1,6 +1,7 @@
 ﻿using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using lifeEcommerce.Models.Dtos;
+using Microsoft.Extensions.Localization;
 
 namespace lifeEcommerce.Controllers
 {
@@ -9,16 +10,21 @@ namespace lifeEcommerce.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly ILogger<CategoryController> _logger;
+        private readonly IStringLocalizer<CategoryController> _localizer;
 
-        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger, IStringLocalizer<CategoryController> localizer)
         {
             _categoryService = categoryService;
             _logger = logger;
+            _localizer = localizer;
         }
 
-        [HttpGet("TestSerilog")]
-        public async Task<IActionResult> TestSerilog(int id)
+        [HttpGet("Test")]
+        public async Task<IActionResult> Test()
         {
+            var category = _localizer["category"];
+            var category1 = _localizer.GetString("category").Value;
+
             try
             {
                 int num = 4;
@@ -33,7 +39,7 @@ namespace lifeEcommerce.Controllers
                 _logger.LogDebug(ex, "Error i LIFE");
             }
 
-            return Ok("Tested");
+            return Ok($"{category} {category1}");
         }
 
         [HttpGet("GetCategory")]
