@@ -28,7 +28,7 @@ namespace lifeEcommerce.Helpers
             //using (var emailClient = new SmtpClient())
             //{
             //    emailClient.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-            //    emailClient.Authenticate("albionberisha98@gmail.com", "A1l2b3i4?!");
+            //    emailClient.Authenticate("email", "password");
             //    emailClient.Send(emailToSend);
             //    emailClient.Disconnect(true);
             //}
