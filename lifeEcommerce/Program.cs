@@ -44,6 +44,12 @@ builder.Services.AddEmailSenders(builder.Configuration);
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+var smtpConfigurations = builder.Configuration.GetSection(nameof(SmtpConfiguration)).Get<SmtpConfiguration>();
+builder.Services.AddSingleton(smtpConfigurations);
+builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+
 var logger = new LoggerConfiguration()
         .ReadFrom.Configuration(builder.Configuration)
         .Enrich.FromLogContext()
@@ -167,6 +173,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+var supportedCultures = new[] { "en-US", "sq-AL", "cs-CS" };
+var localizationOptions =
+    new RequestLocalizationOptions()
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
+
+app.UseRequestLocalization(localizationOptions);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
