@@ -1,4 +1,5 @@
 ﻿using lifeEcommerce.Data.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -75,6 +76,23 @@ namespace lifeEcommerce.Data.Repository
         public void UpdateRange(List<Tentity> entities)
         {
             _dbContext.Set<Tentity>().UpdateRange(entities);
+        }
+
+        public IQueryable<Tentity> GetByConditionWithIncludes(Expression<Func<Tentity, bool>> expression, string? includeRelations = null)
+        {
+            var query = _dbContext.Set<Tentity>().Where(expression);
+
+            if (!string.IsNullOrEmpty(includeRelations))
+            {
+                var relations = includeRelations.Split(", ");
+
+                foreach(var relation in relations)
+                {
+                    query = query.Include(relation);
+                }
+            }
+
+            return query;
         }
     }
 }

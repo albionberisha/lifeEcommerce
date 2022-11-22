@@ -12,5 +12,6 @@ namespace lifeEcommerce.Services.IService
         Task<PagedInfo<Product>> ProductsListView(string search, int page, int pageSize, int categoryId);
         Task<Product> GetProduct(int id);
         Task UpdateProduct(ProductDto productToUpdate);
+        Task<Product> GetWithIncludes(int id);
     }
 }

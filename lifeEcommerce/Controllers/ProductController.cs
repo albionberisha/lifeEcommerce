@@ -35,6 +35,19 @@ namespace lifeEcommerce.Controllers
             return Ok(product);
         }
 
+        [HttpGet("GetProductWithIncludes")]
+        public async Task<IActionResult> GetIncludes(int id)
+        {
+            var product = await _productService.GetWithIncludes(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
+
         [HttpGet("GetProducts")]
         public async Task<IActionResult> GetProducts()
         {

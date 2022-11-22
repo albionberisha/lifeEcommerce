@@ -41,7 +41,7 @@ namespace lifeEcommerce.Models.Entities
         public Category Category { get; set; }
 
         [Required]
-        [Display(Name = "Cover")]
+        [Display(Name = "Unit")]
         public int UnitId { get; set; }
         [ValidateNever]
         public Unit Unit { get; set; }

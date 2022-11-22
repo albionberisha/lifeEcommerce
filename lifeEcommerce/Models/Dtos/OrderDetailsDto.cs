@@ -2,7 +2,7 @@
 
 namespace lifeEcommerce.Models.Entities
 {
-    public class OrderDetails
+    public class OrderDetailsDto
     {
         public int Id { get; set; }
 

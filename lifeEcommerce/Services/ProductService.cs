@@ -36,6 +36,14 @@ namespace lifeEcommerce.Services
             return product;
         }
 
+        //public async Task<Product> GetWithInculdes(int id)
+        //{
+        //    Expression<Func<Product, bool>> expression = x => x.Id == id;
+        //    var product = await _unitOfWork.Repository<Product>().GetByConditionWithIncludes(expression, "Category, Unit").FirstOrDefaultAsync();
+
+        //    return product;
+        //}
+
         public async Task UpdateProduct(ProductDto productToUpdate)
         {
             Product? product = await GetProduct(productToUpdate.Id);
@@ -98,6 +106,14 @@ namespace lifeEcommerce.Services
             };
 
             return categoriesPaged;
+        }
+
+        public async Task<Product> GetWithIncludes(int id)
+        {
+            Expression<Func<Product, bool>> expression = x => x.Id == id;
+            var product = await _unitOfWork.Repository<Product>().GetByConditionWithIncludes(expression, "Category, Unit").FirstOrDefaultAsync();
+
+            return product;
         }
     }
 }

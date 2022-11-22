@@ -2,10 +2,8 @@
 
 namespace lifeEcommerce.Models.Entities
 {
-    public class OrderDetails
+    public class OrderDetailsCreateDto
     {
-        public int Id { get; set; }
-
         public int OrderId { get; set; }
         [ForeignKey("OrderId")]
         public OrderData OrderData { get; set; }
