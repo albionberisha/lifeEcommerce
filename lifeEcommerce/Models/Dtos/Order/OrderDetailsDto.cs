@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using lifeEcommerce.Models.Entities;
 
-namespace lifeEcommerce.Models.Entities
+namespace lifeEcommerce.Models.Dtos.Order
 {
     public class OrderDetailsDto
     {
@@ -11,7 +12,7 @@ namespace lifeEcommerce.Models.Entities
         public OrderData OrderData { get; set; }
 
         public int ProductId { get; set; }
-        public Product Product { get; set; }
+        public Entities.Product Product { get; set; }
 
         public int Count { get; set; }
 

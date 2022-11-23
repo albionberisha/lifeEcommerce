@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace lifeEcommerce.Models.Dtos
+namespace lifeEcommerce.Models.Dtos.Product
 {
     public class ProductCreateDto
     {

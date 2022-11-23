@@ -1,8 +1,8 @@
 ﻿using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Mvc;
-using lifeEcommerce.Models.Dtos;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using lifeEcommerce.Models.Dtos.Category;
 
 namespace lifeEcommerce.Controllers
 {

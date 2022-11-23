@@ -1,11 +1,11 @@
 ﻿using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Mvc;
-using lifeEcommerce.Models.Dtos;
 using lifeEcommerce.Models.Entities;
 using Amazon.S3.Model;
 using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using lifeEcommerce.Helpers;
+using lifeEcommerce.Models.Dtos.Product;
 
 namespace lifeEcommerce.Controllers
 {

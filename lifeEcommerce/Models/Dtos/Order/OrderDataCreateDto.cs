@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace lifeEcommerce.Models.Entities
+namespace lifeEcommerce.Models.Dtos.Order
 {
-    public class OrderDataDto
+    public class OrderDataCreateDto
     {
-        public int Id { get; set; }
-
         [Required]
         public DateTime OrderDate { get; set; }
         [Required]

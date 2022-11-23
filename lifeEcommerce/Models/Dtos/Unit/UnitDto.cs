@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace lifeEcommerce.Models.Dtos
+namespace lifeEcommerce.Models.Dtos.Unit
 {
-    public class UnitCreateDto
+    public class UnitDto
     {
+        public int Id { get; set; }
+
         [Display(Name = "Cover Type")]
         [Required]
         [MaxLength(50)]

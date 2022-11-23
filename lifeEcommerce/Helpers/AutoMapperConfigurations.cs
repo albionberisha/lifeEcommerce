@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using lifeEcommerce.Models.Dtos;
+using lifeEcommerce.Models.Dtos.Category;
+using lifeEcommerce.Models.Dtos.Product;
+using lifeEcommerce.Models.Dtos.Unit;
 using lifeEcommerce.Models.Entities;
 
 namespace lifeEcommerce.Helpers

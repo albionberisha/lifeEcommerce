@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using lifeEcommerce.Helpers;
 using AutoMapper;
-using lifeEcommerce.Models.Dtos;
+using lifeEcommerce.Models.Dtos.Product;
 
 namespace lifeEcommerce.Services
 {

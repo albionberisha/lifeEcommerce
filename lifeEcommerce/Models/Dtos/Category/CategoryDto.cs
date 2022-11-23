@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace lifeEcommerce.Models.Dtos
+namespace lifeEcommerce.Models.Dtos.Category
 {
-    public class CategoryCreateDto
+    public class CategoryDto
     {
+        public int Id { get; set; }
         [Required]
-        [MaxLength(30)]
         public string Name { get; set; }
         [DisplayName("Display Order")]
         [Range(1, 100, ErrorMessage = "")]

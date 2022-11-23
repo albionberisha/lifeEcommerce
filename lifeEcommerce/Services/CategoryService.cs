@@ -1,11 +1,11 @@
 ﻿using lifeEcommerce.Models.Entities;
 using lifeEcommerce.Data.UnitOfWork;
 using lifeEcommerce.Services.IService;
-using lifeEcommerce.Models.Dtos;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using lifeEcommerce.Helpers;
 using AutoMapper;
+using lifeEcommerce.Models.Dtos.Category;
 
 namespace lifeEcommerce.Services
 {
