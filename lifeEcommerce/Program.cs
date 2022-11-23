@@ -3,17 +3,13 @@ using lifeEcommerce.Data;
 using lifeEcommerce.Data.UnitOfWork;
 using lifeEcommerce.Helpers;
 using lifeEcommerce.Models.Entities;
-using lifeEcommerce.Services;
-using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using System.Configuration;
 using System.Security.Claims;
-using System.Security.Cryptography.Xml;
 using System.Text;
 using claims = System.Security.Claims;
 

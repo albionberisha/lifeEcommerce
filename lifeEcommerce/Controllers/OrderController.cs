@@ -1,13 +1,4 @@
-﻿using lifeEcommerce.Services.IService;
-using Microsoft.AspNetCore.Mvc;
-using lifeEcommerce.Models.Dtos;
-using lifeEcommerce.Models.Entities;
-using Amazon.S3.Model;
-using Amazon.S3;
-using Microsoft.Extensions.Configuration;
-using lifeEcommerce.Helpers;
-
-namespace lifeEcommerce.Controllers
+﻿namespace lifeEcommerce.Controllers
 {
     //[ApiController]
     //public class OrderController : Controller
@@ -81,7 +72,7 @@ namespace lifeEcommerce.Controllers
     //        var uploadPicture = await UploadToBlob(file);
 
     //        var imageUrl = $"{_configuration.GetValue<string>("BlobConfig:CDNLife")}{file.FileName + Path.GetExtension(file.FileName)}";
-            
+
     //        return Ok(imageUrl);
     //    }
     //}
