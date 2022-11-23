@@ -28,7 +28,7 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddDbContext<LifeEcommerceDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddServicesAndRepositories();
+builder.Services.AddServices();
 
 //builder.Services.AddSingleton<IEmailSender, EmailSender>();
 var smtpConfiguration = builder.Configuration.GetSection(nameof(SmtpConfiguration)).Get<SmtpConfiguration>();

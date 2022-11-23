@@ -34,11 +34,12 @@ namespace lifeEcommerce.Helpers
             }
         }
 
-        public static void AddServicesAndRepositories(this IServiceCollection services)
+        public static void AddServices(this IServiceCollection services)
         {
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ICoverService, CoverService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IShoppingCardService, ShoppingCardService>();
         }
     }
 }

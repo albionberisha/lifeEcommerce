@@ -28,4 +28,15 @@ public static class HelperMethods
 
         return query.Skip((page - 1) * pageSize).Take(pageSize);
     }
+
+    public static double GetPriceByQuantity(int quantity, double price, double price50, double price100)
+    {
+        if(quantity <= 50) return price;
+        else
+        {
+            if (quantity <= 100) return price50;
+            else
+                return price100;
+        }
+    }
 }
