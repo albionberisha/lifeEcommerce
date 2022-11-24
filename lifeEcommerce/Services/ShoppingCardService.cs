@@ -39,28 +39,25 @@ namespace lifeEcommerce.Services
                                                                     .GetByCondition(x => x.UserId == userId)
                                                                     .ToListAsync();
 
-            List<int> productIds = usersShoppingCard.Select(x => x.ProductId).ToList();
+            var productIds = usersShoppingCard.Select(x => x.ProductId).ToList();
 
 
             var productData = await _unitOfWork.Repository<Product>()
                                                               .GetByCondition(x => productIds.Contains(x.Id))
                                                               .ToDictionaryAsync(x => x.Id, y => y);
 
-            //var productData = _unitOfWork.Repository<Product>()
-            //                                      .GetByCondition(x => productIds.Contains(x.Id));
-
 
             var shoppingCardList = new List<ShoppingCardViewDto>();
 
             foreach (var item in usersShoppingCard)
             {
-                var currentProduct = productData.FirstOrDefault(x => x.Id == item.ProductId);
+                var currentProduct = productData[item.ProductId];
 
                 var calculatedPrice = HelperMethods.GetPriceByQuantity(item.Count, currentProduct.Price, currentProduct.Price50, currentProduct.Price100);
 
                 var model = new ShoppingCardViewDto
                 {
-                    ProductImage = productData[item.ProductId].ImageUrl,
+                    ProductImage = currentProduct.ImageUrl,
                     ProductDescription = currentProduct.Description,
                     ProductName = currentProduct.Title,
                     ProductPrice = calculatedPrice,

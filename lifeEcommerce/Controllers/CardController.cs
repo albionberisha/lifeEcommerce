@@ -40,7 +40,7 @@ namespace lifeEcommerce.Controllers
             var userData = (ClaimsIdentity)User.Identity;
             var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            Task<List<ShoppingCardViewDto>>? shoppingCardContentForUser = _cardService.GetShoppingCardContentForUser(userId);
+            var shoppingCardContentForUser = await _cardService.GetShoppingCardContentForUser(userId);
 
             return Ok(shoppingCardContentForUser);
         }
