@@ -33,25 +33,18 @@ namespace lifeEcommerce.Services
             _unitOfWork.Complete();
         }
 
-        public async Task<List<ShoppingCardViewDto>> GetShoppingCardContentForUser(string userId)
+        public async Task<ShoppingCardDetails> GetShoppingCardContentForUser(string userId)
         {
             var usersShoppingCard = await _unitOfWork.Repository<ShoppingCard>()
                                                                     .GetByCondition(x => x.UserId == userId)
+                                                                    .Include(x => x.Product)  
                                                                     .ToListAsync();
-
-            var productIds = usersShoppingCard.Select(x => x.ProductId).ToList();
-
-
-            var productData = await _unitOfWork.Repository<Product>()
-                                                              .GetByCondition(x => productIds.Contains(x.Id))
-                                                              .ToDictionaryAsync(x => x.Id, y => y);
-
 
             var shoppingCardList = new List<ShoppingCardViewDto>();
 
             foreach (var item in usersShoppingCard)
             {
-                var currentProduct = productData[item.ProductId];
+                var currentProduct = item.Product;
 
                 var calculatedPrice = HelperMethods.GetPriceByQuantity(item.Count, currentProduct.Price, currentProduct.Price50, currentProduct.Price100);
 
@@ -74,7 +67,7 @@ namespace lifeEcommerce.Services
                 CardTotal = shoppingCardList.Select(x => x.Total).Sum()
             };
 
-            return shoppingCardList;
+            return shoppingCardDetails;
         }
 
         public async Task Plus(int shoppingCardItemId, int? newQuantity)

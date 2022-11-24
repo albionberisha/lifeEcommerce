@@ -53,6 +53,19 @@ namespace lifeEcommerce.Controllers
 
             if (userId == null) { return Unauthorized(); }
 
+            await _cardService.Plus(shoppingCardItemId, newQuantity);
+
+            return Ok();
+        }
+
+        [HttpPost("DecreaseQuantityForProduct")]
+        public async Task<IActionResult> Minus(int? newQuantity, int shoppingCardItemId)
+        {
+            var userData = (ClaimsIdentity)User.Identity;
+            var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            if (userId == null) { return Unauthorized(); }
+
             _cardService.Plus(shoppingCardItemId, newQuantity);
 
             return Ok();
