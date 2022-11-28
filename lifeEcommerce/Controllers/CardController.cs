@@ -30,7 +30,7 @@ namespace lifeEcommerce.Controllers
 
             if(userId == null) { return Unauthorized(); }
 
-            _cardService.AddProductToCard(userId, productId, count);
+            await _cardService.AddProductToCard(userId, productId, count);
 
             return Ok("Added to card!");
         }
@@ -42,7 +42,7 @@ namespace lifeEcommerce.Controllers
             var userData = (ClaimsIdentity)User.Identity;
             var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var shoppingCardContentForUser = await _cardService.GetShoppingCardContentForUser(userId);
+            ShoppingCardDetails? shoppingCardContentForUser = await _cardService.GetShoppingCardContentForUser(userId);
 
             return Ok(shoppingCardContentForUser);
         }
@@ -73,18 +73,18 @@ namespace lifeEcommerce.Controllers
             return Ok();
         }
 
-        //[HttpPost("ProductSummaryForOrder")]
-        //public async Task<IActionResult> ProductSummary(AddressDetails addressDetails, List<ShoppingCardViewDto> shoppingCardItems)
-        //{
-        //    var userData = (ClaimsIdentity)User.Identity;
-        //    var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
+        [HttpPost("ProductSummaryForOrder")]
+        public async Task<IActionResult> ProductSummary(ProductSummaryModel model)
+        {
+            var userData = (ClaimsIdentity)User.Identity;
+            var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        //    if (userId == null) { return Unauthorized();}
+            if (userId == null) { return Unauthorized(); }
 
-        //    await _cardService.CreateOrder(addressDetails, shoppingCardItems);
+            await _cardService.CreateOrder(model.AddressDetails, model.ShoppingCardItems);
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
 
     }
 }

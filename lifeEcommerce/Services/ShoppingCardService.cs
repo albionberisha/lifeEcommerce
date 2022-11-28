@@ -110,10 +110,13 @@ namespace lifeEcommerce.Services
 
             var trackingId = Guid.NewGuid().ToString();
 
-            foreach(ShoppingCardViewDto item in shoppingCardItems)
+            var orderDetailsList = new List<OrderDetails>();
+
+            foreach (ShoppingCardViewDto item in shoppingCardItems)
             {
                 var order = new OrderData
                 {
+                    OrderId = Guid.NewGuid().ToString(),
                     OrderDate = DateTime.Now,
                     ShippingDate = DateTime.Now.AddDays(7),
                     OrderTotal = (decimal)item.Total,
@@ -126,7 +129,18 @@ namespace lifeEcommerce.Services
                     TrackingId = trackingId
                 };
 
+                var orderDetails = new OrderDetails
+                {
+                    OrderDataId = order.OrderId,
+                    ProductId = item.ProductId,
+                    Count = item.ShopingCardProductCount,
+                    Price = (decimal)item.Total
+                };
+
+                orderDetailsList.Add(orderDetails);
+
                 orders.Add(order);
+
                 shoppingCardItemIdsToRemove.Add(item.ShoppingCardItemId);
 
             }
@@ -136,27 +150,13 @@ namespace lifeEcommerce.Services
                                                                           .ToListAsync();
 
             _unitOfWork.Repository<OrderData>().CreateRange(orders);
+            //_unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
 
             _unitOfWork.Repository<ShoppingCard>().DeleteRange(shoppingCardItemsToRemove);
 
-            _unitOfWork.Complete();
-
-            List<OrderData>? createdOrders = await _unitOfWork.Repository<OrderData>()
-                                                                     .GetByCondition(x => x.TrackingId == trackingId)
-                                                                     .ToListAsync();
-            var orderDetailsList = new List<OrderDetails>();
-
-            foreach(var credatedOrder in createdOrders)
-            {
-                var orderDetails = new OrderDetails
-                {
-                    OrderId = credatedOrder.Id,
-                    ProductId = 1,
-                    Count = 1
-                };
-
-                orderDetailsList.Add(orderDetails);
-            }
+            //List<OrderData>? createdOrders = await _unitOfWork.Repository<OrderData>()
+            //                                                         .GetByCondition(x => x.TrackingId == trackingId)
+            //                                                         .ToListAsync();
 
             _unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
 

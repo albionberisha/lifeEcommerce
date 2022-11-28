@@ -4,7 +4,8 @@ namespace lifeEcommerce.Models.Entities
 {
     public class OrderData
     {
-        public int Id { get; set; }
+        [Key]
+        public string OrderId { get; set; }
 
         [Required]
         public DateTime OrderDate { get; set; }
@@ -12,13 +13,13 @@ namespace lifeEcommerce.Models.Entities
         public DateTime ShippingDate { get; set; }
         public decimal OrderTotal { get; set; }
         public string TrackingId { get; set; }
-        public string Carrier { get; set; }
-        public string OrderStatus { get; set; }
-        public string PaymentStatus { get; set; }
-        public string TransactionId { get; set; }
+        public string? Carrier { get; set; }
+        public string? OrderStatus { get; set; }
+        public string? PaymentStatus { get; set; }
+        public string? TransactionId { get; set; }
 
-        public DateTime PaymentDate { get; set; }
-        public DateTime PaymentDueDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public DateTime? PaymentDueDate { get; set; }
 
         [Required]
         public string PhoheNumber { get; set; }

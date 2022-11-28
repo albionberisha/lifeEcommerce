@@ -6,8 +6,8 @@ namespace lifeEcommerce.Models.Entities
     {
         public int Id { get; set; }
 
-        public int OrderId { get; set; }
-        [ForeignKey("OrderId")]
+        public string OrderDataId { get; set; }
+        [ForeignKey("OrderDataId")]
         public OrderData OrderData { get; set; }
 
         public int ProductId { get; set; }

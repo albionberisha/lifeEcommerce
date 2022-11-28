@@ -54,7 +54,6 @@ namespace lifeEcommerce.Helpers
             var errorMessage = 
                 new { Message = ex.Message, 
                     Code = "system_error",
-                    StatusCode = context.Response.StatusCode
                 }; 
 
             var customResponse = JsonConvert.SerializeObject(errorMessage);

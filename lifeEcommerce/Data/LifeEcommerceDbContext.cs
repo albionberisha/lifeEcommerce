@@ -7,7 +7,7 @@ namespace lifeEcommerce.Data
     {
         public LifeEcommerceDbContext(DbContextOptions<LifeEcommerceDbContext> options) : base(options)
         {
-            
+
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -17,5 +17,13 @@ namespace lifeEcommerce.Data
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<ShoppingCard> ShoppingCards { get; set; }
         public DbSet<OrderData> OrderData { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ShoppingCard>(entity =>
+            {
+                entity.HasIndex(x => new { x.UserId, x.ProductId}).IsUnique();
+            });
+        }
     }
 }
