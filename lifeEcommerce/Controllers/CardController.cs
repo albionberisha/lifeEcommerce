@@ -1,4 +1,6 @@
-﻿using lifeEcommerce.Models.Dtos.ShoppingCard;
+﻿using lifeEcommerce.Models.Dtos.Order;
+using lifeEcommerce.Models.Dtos.ShoppingCard;
+using lifeEcommerce.Models.Entities;
 using lifeEcommerce.Services.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -66,21 +68,23 @@ namespace lifeEcommerce.Controllers
 
             if (userId == null) { return Unauthorized(); }
 
-            _cardService.Plus(shoppingCardItemId, newQuantity);
+            await _cardService.Minus(shoppingCardItemId, newQuantity);
 
             return Ok();
         }
 
-        [HttpPost("ProductSummaryForOrder")]
-        public async Task<IActionResult> ProductSummary()
-        {
-            var userData = (ClaimsIdentity)User.Identity;
-            var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //[HttpPost("ProductSummaryForOrder")]
+        //public async Task<IActionResult> ProductSummary(AddressDetails addressDetails, List<ShoppingCardViewDto> shoppingCardItems)
+        //{
+        //    var userData = (ClaimsIdentity)User.Identity;
+        //    var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            if (userId == null) { return Unauthorized(); }
+        //    if (userId == null) { return Unauthorized();}
 
-            return Ok();
-        }
+        //    await _cardService.CreateOrder(addressDetails, shoppingCardItems);
+
+        //    return Ok();
+        //}
 
     }
 }

@@ -25,26 +25,27 @@ namespace lifeEcommerce.Controllers
         [HttpGet("Test")]
         public async Task<IActionResult> Test()
         {
-            await _emailSender.SendEmailAsync("albion.b@gjirafa.com","Hello From Life", "Content");
+            //await _emailSender.SendEmailAsync("albion.b@gjirafa.com","Hello From Life", "Content");
 
-            var category = _localizer["category"];
-            var category1 = _localizer.GetString("category").Value;
+            //var category = _localizer["category"];
+            //var category1 = _localizer.GetString("category").Value;
 
-            try
-            {
+            //try
+            //{
                 int num = 4;
                 int num2 = 0;
 
                 int num3 = num / num2;
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex, "Error i LIFE");
-                _logger.LogInformation(ex, "Error i LIFE");
-                _logger.LogDebug(ex, "Error i LIFE");
-            }
+            //}
+            //catch(Exception ex)
+            //{
+            //    _logger.LogError(ex, "Error i LIFE");
+            //    _logger.LogInformation(ex, "Error i LIFE");
+            //    _logger.LogDebug(ex, "Error i LIFE");
+            //}
 
-            return Ok($"{category} {category1}");
+            return Ok();
+            //return Ok($"{category} {category1}");
         }
 
         [HttpGet("GetCategory")]

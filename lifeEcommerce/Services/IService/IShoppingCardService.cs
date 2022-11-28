@@ -1,4 +1,5 @@
-﻿using lifeEcommerce.Models.Dtos.ShoppingCard;
+﻿using lifeEcommerce.Models.Dtos.Order;
+using lifeEcommerce.Models.Dtos.ShoppingCard;
 
 namespace lifeEcommerce.Services.IService
 {
@@ -8,5 +9,6 @@ namespace lifeEcommerce.Services.IService
         Task<ShoppingCardDetails> GetShoppingCardContentForUser(string userId);
         Task Plus(int shoppingCardItemId, int? newQuantity);
         Task Minus(int shoppingCardItemId, int? newQuantity);
+        Task CreateOrder(AddressDetails addressDetails, List<ShoppingCardViewDto> shoppingCardItems);
     }
 }

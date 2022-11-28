@@ -5,6 +5,7 @@ using lifeEcommerce.Models.Entities;
 using lifeEcommerce.Models.Dtos.ShoppingCard;
 using Microsoft.EntityFrameworkCore;
 using lifeEcommerce.Helpers;
+using lifeEcommerce.Models.Dtos.Order;
 
 namespace lifeEcommerce.Services
 {
@@ -42,7 +43,7 @@ namespace lifeEcommerce.Services
 
             var shoppingCardList = new List<ShoppingCardViewDto>();
 
-            foreach (var item in usersShoppingCard)
+            foreach (ShoppingCard item in usersShoppingCard)
             {
                 var currentProduct = item.Product;
 
@@ -50,6 +51,8 @@ namespace lifeEcommerce.Services
 
                 var model = new ShoppingCardViewDto
                 {
+                    ShoppingCardItemId = item.Id,
+                    ProductId = item.ProductId,
                     ProductImage = currentProduct.ImageUrl,
                     ProductDescription = currentProduct.Description,
                     ProductName = currentProduct.Title,
@@ -97,6 +100,66 @@ namespace lifeEcommerce.Services
                 shoppingCardItem.Count = (int)newQuantity;
 
             _unitOfWork.Repository<ShoppingCard>().Update(shoppingCardItem);
+            _unitOfWork.Complete();
+        }
+
+        public async Task CreateOrder(AddressDetails addressDetails, List<ShoppingCardViewDto> shoppingCardItems)
+        {
+            var orders = new List<OrderData>();
+            List<int>? shoppingCardItemIdsToRemove = new ();
+
+            var trackingId = Guid.NewGuid().ToString();
+
+            foreach(ShoppingCardViewDto item in shoppingCardItems)
+            {
+                var order = new OrderData
+                {
+                    OrderDate = DateTime.Now,
+                    ShippingDate = DateTime.Now.AddDays(7),
+                    OrderTotal = (decimal)item.Total,
+                    PhoheNumber = addressDetails.PhoheNumber,
+                    StreetAddress = addressDetails.StreetAddress,
+                    City = addressDetails.City,
+                    Country = addressDetails.Country,
+                    PostalCode = addressDetails.PostalCode,
+                    Name = addressDetails.Name,
+                    TrackingId = trackingId
+                };
+
+                orders.Add(order);
+                shoppingCardItemIdsToRemove.Add(item.ShoppingCardItemId);
+
+            }
+
+            var shoppingCardItemsToRemove = await _unitOfWork.Repository<ShoppingCard>()
+                                                                          .GetByCondition(x => shoppingCardItemIdsToRemove.Contains(x.Id))
+                                                                          .ToListAsync();
+
+            _unitOfWork.Repository<OrderData>().CreateRange(orders);
+
+            _unitOfWork.Repository<ShoppingCard>().DeleteRange(shoppingCardItemsToRemove);
+
+            _unitOfWork.Complete();
+
+            List<OrderData>? createdOrders = await _unitOfWork.Repository<OrderData>()
+                                                                     .GetByCondition(x => x.TrackingId == trackingId)
+                                                                     .ToListAsync();
+            var orderDetailsList = new List<OrderDetails>();
+
+            foreach(var credatedOrder in createdOrders)
+            {
+                var orderDetails = new OrderDetails
+                {
+                    OrderId = credatedOrder.Id,
+                    ProductId = 1,
+                    Count = 1
+                };
+
+                orderDetailsList.Add(orderDetails);
+            }
+
+            _unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
+
             _unitOfWork.Complete();
         }
     }
