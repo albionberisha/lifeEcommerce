@@ -40,6 +40,7 @@ namespace lifeEcommerce.Helpers
             services.AddTransient<ICoverService, CoverService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IShoppingCardService, ShoppingCardService>();
+            services.AddTransient<IOrderService, OrderService>();
         }
     }
 }

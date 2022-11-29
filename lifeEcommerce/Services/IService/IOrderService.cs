@@ -2,6 +2,6 @@
 {
     public interface IOrderService
     {
-        
+        Task ProcessOrder(List<string> orderIds, string status);
     }
 }

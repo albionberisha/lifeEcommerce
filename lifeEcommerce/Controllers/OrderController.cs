@@ -16,9 +16,11 @@ namespace lifeEcommerce.Controllers
         }
 
         [HttpPost("ProcessOrder")]
-        public async Task<IActionResult> ProcessOrder(string status)
+        public async Task<IActionResult> ProcessOrder(List<string> orderIds, string status)
         {
-            return Ok();
+            await _orderService.ProcessOrder(orderIds, status);
+
+            return Ok($"Now selected orders are in new status: {status}");
         }
     }
 }
