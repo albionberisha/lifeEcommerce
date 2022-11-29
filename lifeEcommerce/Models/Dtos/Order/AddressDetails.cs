@@ -16,5 +16,6 @@ namespace lifeEcommerce.Models.Dtos.Order
         public string PostalCode { get; set; }
         [Required]
         public string Name { get; set; }
+        public string Email { get; set; }
     }
 }

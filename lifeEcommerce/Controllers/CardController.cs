@@ -79,6 +79,8 @@ namespace lifeEcommerce.Controllers
             var userData = (ClaimsIdentity)User.Identity;
             var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+            model.AddressDetails.Email = userData.FindFirst(ClaimTypes.Email).Value;
+
             if (userId == null) { return Unauthorized(); }
 
             await _cardService.CreateOrder(model.AddressDetails, model.ShoppingCardItems);

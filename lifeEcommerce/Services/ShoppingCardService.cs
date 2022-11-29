@@ -6,6 +6,8 @@ using lifeEcommerce.Models.Dtos.ShoppingCard;
 using Microsoft.EntityFrameworkCore;
 using lifeEcommerce.Helpers;
 using lifeEcommerce.Models.Dtos.Order;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Linq;
 
 namespace lifeEcommerce.Services
 {
@@ -14,11 +16,13 @@ namespace lifeEcommerce.Services
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public ShoppingCardService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ShoppingCardService(IUnitOfWork unitOfWork, IMapper mapper, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
 
         public async Task AddProductToCard(string userId, int productId, int count)
@@ -156,6 +160,34 @@ namespace lifeEcommerce.Services
             _unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
 
             _unitOfWork.Complete();
+
+            var pathToFile = "Templates/order_confirmation.html";
+
+            string htmlBody = "";
+            using (StreamReader streamReader = System.IO.File.OpenText(pathToFile))
+            {
+                htmlBody = streamReader.ReadToEnd();
+            }
+
+            double totalPrice = 0;
+            shoppingCardItems.ForEach(x => totalPrice += x.ProductPrice);
+
+            var orderIds = orders.Select(x => x.OrderId).ToList();
+
+            //var totalPrice = shoppingCardItems.Select(x => x.ProductPrice).Sum();
+            var orderConfirmationDto = new OrderConirmationDto
+            {
+                UserName = "LifeUser",
+                OrderDate= DateTime.Now,
+                Price = totalPrice,
+                OrderId = string.Join(",", orderIds)   
+            };
+
+            var myData = new[] { "LifeUser", DateTime.Now.ToString(), totalPrice.ToString(), string.Join(",", orderIds) };
+
+            var content = string.Format(htmlBody, myData);
+
+            await _emailSender.SendEmailAsync(addressDetails.Email, "OrderConfirmation", content);
         }
     }
 }
