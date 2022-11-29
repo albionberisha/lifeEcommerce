@@ -150,13 +150,8 @@ namespace lifeEcommerce.Services
                                                                           .ToListAsync();
 
             _unitOfWork.Repository<OrderData>().CreateRange(orders);
-            //_unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
 
             _unitOfWork.Repository<ShoppingCard>().DeleteRange(shoppingCardItemsToRemove);
-
-            //List<OrderData>? createdOrders = await _unitOfWork.Repository<OrderData>()
-            //                                                         .GetByCondition(x => x.TrackingId == trackingId)
-            //                                                         .ToListAsync();
 
             _unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
 
