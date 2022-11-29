@@ -73,18 +73,18 @@ namespace lifeEcommerce.Controllers
             return Ok();
         }
 
-        //[HttpPost("ProductSummaryForOrder")]
-        //public async Task<IActionResult> ProductSummary(AddressDetails addressDetails, List<ShoppingCardViewDto> shoppingCardItems)
-        //{
-        //    var userData = (ClaimsIdentity)User.Identity;
-        //    var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
+        [HttpPost("ProductSummaryForOrder")]
+        public async Task<IActionResult> ProductSummary(OrderSummaryModel model)
+        {
+            var userData = (ClaimsIdentity)User.Identity;
+            var userId = userData.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        //    if (userId == null) { return Unauthorized();}
+            if (userId == null) { return Unauthorized(); }
 
-        //    await _cardService.CreateOrder(addressDetails, shoppingCardItems);
+            await _cardService.CreateOrder(model.AddressDetails, model.ShoppingCardItems);
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
 
     }
 }

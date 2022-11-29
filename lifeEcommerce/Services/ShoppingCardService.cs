@@ -107,6 +107,7 @@ namespace lifeEcommerce.Services
         {
             var orders = new List<OrderData>();
             List<int>? shoppingCardItemIdsToRemove = new ();
+            var orderDetailsList = new List<OrderDetails>();
 
             var trackingId = Guid.NewGuid().ToString();
 
@@ -114,6 +115,7 @@ namespace lifeEcommerce.Services
             {
                 var order = new OrderData
                 {
+                    OrderId = Guid.NewGuid().ToString(),
                     OrderDate = DateTime.Now,
                     ShippingDate = DateTime.Now.AddDays(7),
                     OrderTotal = (decimal)item.Total,
@@ -123,8 +125,18 @@ namespace lifeEcommerce.Services
                     Country = addressDetails.Country,
                     PostalCode = addressDetails.PostalCode,
                     Name = addressDetails.Name,
-                    TrackingId = trackingId
+                    TrackingId = trackingId,
+                    OrderStatus = StaticDetails.Created
                 };
+
+                var orderDetails = new OrderDetails
+                {
+                    OrderId = order.OrderId,
+                    ProductId = item.ProductId,
+                    Count = item.ShopingCardProductCount
+                };
+
+                orderDetailsList.Add(orderDetails);
 
                 orders.Add(order);
                 shoppingCardItemIdsToRemove.Add(item.ShoppingCardItemId);
@@ -136,31 +148,24 @@ namespace lifeEcommerce.Services
                                                                           .ToListAsync();
 
             _unitOfWork.Repository<OrderData>().CreateRange(orders);
+            _unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
 
             _unitOfWork.Repository<ShoppingCard>().DeleteRange(shoppingCardItemsToRemove);
 
             _unitOfWork.Complete();
 
-            List<OrderData>? createdOrders = await _unitOfWork.Repository<OrderData>()
-                                                                     .GetByCondition(x => x.TrackingId == trackingId)
-                                                                     .ToListAsync();
-            var orderDetailsList = new List<OrderDetails>();
+            //List<OrderData>? createdOrders = await _unitOfWork.Repository<OrderData>()
+            //                                                         .GetByCondition(x => x.TrackingId == trackingId)
+            //                                                         .ToListAsync();
 
-            foreach(var credatedOrder in createdOrders)
-            {
-                var orderDetails = new OrderDetails
-                {
-                    OrderId = credatedOrder.Id,
-                    ProductId = 1,
-                    Count = 1
-                };
+            //foreach(var credatedOrder in createdOrders)
+            //{
+                
+            //}
 
-                orderDetailsList.Add(orderDetails);
-            }
+            //_unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
 
-            _unitOfWork.Repository<OrderDetails>().CreateRange(orderDetailsList);
-
-            _unitOfWork.Complete();
+            //_unitOfWork.Complete();
         }
     }
 }
