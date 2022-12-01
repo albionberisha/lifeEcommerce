@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using lifeEcommerce.Models.Dtos.Category;
+using UAParser;
+using Wangkanai.Detection.Services;
+using lifeEcommerce.Helpers;
 
 namespace lifeEcommerce.Controllers
 {
@@ -13,13 +16,17 @@ namespace lifeEcommerce.Controllers
         private readonly ILogger<CategoryController> _logger;
         private readonly IStringLocalizer<CategoryController> _localizer;
         private readonly IEmailSender _emailSender;
+        private readonly IDetectionService _detection;
+        private readonly IHttpContextAccessor _accessor;
 
-        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger, IStringLocalizer<CategoryController> localizer, IEmailSender emailSender)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger, IStringLocalizer<CategoryController> localizer, IEmailSender emailSender, IDetectionService detection, IHttpContextAccessor accessor)
         {
             _categoryService = categoryService;
             _logger = logger;
             _localizer = localizer;
             _emailSender = emailSender;
+            _detection = detection;
+            _accessor = accessor;
         }
 
         [HttpGet("Test")]
@@ -46,6 +53,31 @@ namespace lifeEcommerce.Controllers
 
             return Ok();
             //return Ok($"{category} {category1}");
+        }
+
+        [HttpGet("GetRequestData")]
+        public async Task<IActionResult> GetRequestData()
+        {
+            var userAgent = HttpContext.Request.Headers["User-Agent"];
+
+            var uaParser = Parser.GetDefault();
+
+           var userData = uaParser.Parse(userAgent);
+
+            return Ok(userData);
+        }
+
+        [HttpGet("GetRequestDataUsingPackage")]
+        public async Task<IActionResult> GetRequestDataUsingPackage()
+        {
+            var device = _detection.Device;
+            var browser = _detection.Browser;
+            var userAgent = _detection.UserAgent;
+            var engine = _detection.Engine;
+
+            var remoteIpAddress = _accessor.GetIpAddress();
+
+            return Ok();
         }
 
         [HttpGet("GetCategory")]

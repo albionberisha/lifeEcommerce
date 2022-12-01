@@ -24,6 +24,7 @@ IMapper mapper = mapperConfiguration.CreateMapper();
 
 builder.Services.AddSingleton(mapper);
 
+builder.Services.AddDetection();
 
 builder.Services.AddDbContext<LifeEcommerceDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -31,7 +32,7 @@ builder.Services.AddDbContext<LifeEcommerceDbContext>(options =>
 builder.Services.AddServices();
 
 //builder.Services.AddSingleton<IEmailSender, EmailSender>();
-var smtpConfiguration = builder.Configuration.GetSection(nameof(SmtpConfiguration)).Get<SmtpConfiguration>();
+//var smtpConfiguration = builder.Configuration.GetSection(nameof(SmtpConfiguration)).Get<SmtpConfiguration>();
 
 //builder.Services.AddSingleton(smtpConfiguration);
 //builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
@@ -198,6 +199,8 @@ if (app.Environment.IsDevelopment())
         c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
     });
 }
+
+app.UseDetection();
 
 app.UseHttpsRedirection();
 
