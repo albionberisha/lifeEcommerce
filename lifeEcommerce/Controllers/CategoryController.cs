@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using lifeEcommerce.Models.Dtos.Category;
-using UAParser;
 
 namespace lifeEcommerce.Controllers
 {
@@ -47,16 +46,6 @@ namespace lifeEcommerce.Controllers
 
             return Ok();
             //return Ok($"{category} {category1}");
-        }
-
-        [HttpGet("GetUserAgent")]
-        public async Task<IActionResult> GetUserAgent()
-        {
-            var userAgent = HttpContext.Request.Headers["User-Agent"];
-            var uaParser = Parser.GetDefault();
-            ClientInfo c = uaParser.Parse(userAgent);
-
-            return Ok(c);
         }
 
         [HttpGet("GetCategory")]
