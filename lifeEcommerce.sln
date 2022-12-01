@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lifeEcommerce", "lifeEcommerce\lifeEcommerce.csproj", "{DCED901F-AF65-4F19-84FC-98215ADC908B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeHangfire", "LifeHangfire\LifeHangfire.csproj", "{D30C71F0-05B3-4AF9-A9E2-8E737266F93F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DCED901F-AF65-4F19-84FC-98215ADC908B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCED901F-AF65-4F19-84FC-98215ADC908B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCED901F-AF65-4F19-84FC-98215ADC908B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D30C71F0-05B3-4AF9-A9E2-8E737266F93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30C71F0-05B3-4AF9-A9E2-8E737266F93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30C71F0-05B3-4AF9-A9E2-8E737266F93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30C71F0-05B3-4AF9-A9E2-8E737266F93F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
