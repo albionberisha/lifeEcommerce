@@ -123,7 +123,7 @@ namespace lifeEcommerce.Services
                     OrderId = Guid.NewGuid().ToString(),
                     OrderDate = DateTime.Now,
                     ShippingDate = DateTime.Now.AddDays(7),
-                    OrderTotal = (decimal)item.Total,
+                    OrderTotal = item.Total,
                     PhoheNumber = addressDetails.PhoheNumber,
                     StreetAddress = addressDetails.StreetAddress,
                     City = addressDetails.City,
@@ -138,7 +138,7 @@ namespace lifeEcommerce.Services
                     OrderDataId = order.OrderId,
                     ProductId = item.ProductId,
                     Count = item.ShopingCardProductCount,
-                    Price = (decimal)item.Total
+                    Price = item.Total
                 };
 
                 orderDetailsList.Add(orderDetails);

@@ -11,7 +11,7 @@ namespace lifeEcommerce.Models.Entities
         public DateTime OrderDate { get; set; }
         [Required]
         public DateTime ShippingDate { get; set; }
-        public decimal OrderTotal { get; set; }
+        public double OrderTotal { get; set; }
         public string TrackingId { get; set; }
         public string? Carrier { get; set; }
         public string? OrderStatus { get; set; }
